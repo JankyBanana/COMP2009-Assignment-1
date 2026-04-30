@@ -32,16 +32,16 @@ def solutionConstruction(pheromone):
 
 def AntColonyAlgorithm():
     pheromone = np.ones((len(tasks), len(employees)))
-    numberOfAnts = 50
-    evaporationRate = 0.5
-    depositConstant = 2
-    generations = 200
+    numberOfAnts = 30
+    evaporationRate = 0.2
+    depositConstant = 1
+    generations = 1000
 
-    solutions = []
-    fitnesses = []
     bestSolution = (None, -math.inf)
 
     for generation in range(generations):
+        solutions = []
+        fitnesses = []
         # Ants choose solution
         for ant in range(numberOfAnts):
             solution = solutionConstruction(pheromone)
@@ -54,14 +54,14 @@ def AntColonyAlgorithm():
                     print(bestSolution, generation)
 
         # Evaporate
-        for row in pheromone:
-            for column in row:
-                column *= (1 - evaporationRate)
+        for row in range(len(pheromone)):
+            for column in range(len(pheromone[row])):
+                pheromone[row][column] *= (1 - evaporationRate)
 
         # Deposit
         i = 0
         for solution in solutions:
-            deposit_amount = depositConstant / ((0 - fitnesses[i]) + 1)
+            deposit_amount = depositConstant / ((-fitnesses[i]) + 1)
 
             ii = 0
             for employee in solution:
