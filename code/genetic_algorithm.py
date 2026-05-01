@@ -19,11 +19,7 @@ def Crossover(parent1, parent2):
     return child1, child2
 
 
-def GeneticAlgorithm():
-    crossoverProbability = 0.8
-    mutationProbability = 0.2
-    generations = 200
-    populationSize = 50
+def GeneticAlgorithm(generations = 500, populationSize = 50, crossoverProbability = 0.8, mutationProbability = 0.2):
 
     population = []
     for i in range(populationSize):
@@ -31,6 +27,7 @@ def GeneticAlgorithm():
         fitness = -TotalCostOfSolution(solution)
         population.append([solution, fitness])
     bestSolution = population[0]
+    solutionFound = False
 
     for generation in range(generations):
 
@@ -57,11 +54,16 @@ def GeneticAlgorithm():
             fitness = -TotalCostOfSolution(offspring[i])
             if fitness > bestSolution[1]:
                 bestSolution = [offspring[i], fitness, generation]
+                if fitness >= 0:
+                    solutionFound = True
             population.append([offspring[i], fitness])
 
         print("-------------NEW GENERATION-----------------")
         for solution in population:
             print(solution[0], solution[1])
+
+        if solutionFound:
+            break
 
     print("------------------FINISHED-----------------")
     for solution in population:

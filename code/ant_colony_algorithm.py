@@ -9,7 +9,7 @@ def solutionConstruction(pheromone):
     solution = []
     for row in pheromone:
         totalPheromone = sum(row)
-        if totalPheromone == 0:
+        if totalPheromone <= 0:
             employee = random.randint(0, len(employees) - 1)
             solution.append(employee)
             continue
@@ -30,14 +30,12 @@ def solutionConstruction(pheromone):
     return solution
 
 
-def AntColonyAlgorithm():
+def AntColonyAlgorithm(generations = 500, numberOfAnts = 30, evaporationRate = 0.2, depositConstant = 0.4):
     pheromone = np.ones((len(tasks), len(employees)))
-    numberOfAnts = 30
-    evaporationRate = 0.2
-    depositConstant = 1
-    generations = 1000
+    maxPheromone = 10
 
     bestSolution = (None, -math.inf)
+    solutionFound = False
 
     for generation in range(generations):
         solutions = []
@@ -50,8 +48,10 @@ def AntColonyAlgorithm():
             solutions.append(solution)
             if fitness > bestSolution[1]:
                 bestSolution = (solution, fitness)
+                print(bestSolution, generation)
                 if fitness >= 0:
                     print(bestSolution, generation)
+                    solutionFound = True
 
         # Evaporate
         for row in range(len(pheromone)):
@@ -61,13 +61,18 @@ def AntColonyAlgorithm():
         # Deposit
         i = 0
         for solution in solutions:
-            deposit_amount = depositConstant / ((-fitnesses[i]) + 1)
+            deposit_amount = depositConstant / ((-10*fitnesses[i]) + 1)
 
             ii = 0
             for employee in solution:
                 pheromone[ii][employee] += deposit_amount
+                if pheromone[ii][employee] > maxPheromone:
+                    pheromone[ii][employee] = maxPheromone
                 ii += 1
             i += 1
+
+        if solutionFound:
+            break
 
     print("Best solution is:", bestSolution[0], bestSolution[1])
     return bestSolution
