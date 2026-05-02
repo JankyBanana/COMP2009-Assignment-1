@@ -1,5 +1,6 @@
 import numpy as np
 import random
+from common_functions import GenerationData
 
 from common_functions import *
 
@@ -25,6 +26,7 @@ def Crossover(parent1, parent2):
 def GeneticAlgorithm(generations = 500, populationSize = 50, crossoverProbability = 0.8, mutationProbability = 0.2):
 
     population = []
+    generationData = []
 
     # Set the population to a list of random solutions
     for i in range(populationSize):
@@ -42,6 +44,7 @@ def GeneticAlgorithm(generations = 500, populationSize = 50, crossoverProbabilit
     for generation in range(generations):
         # population.sort(key=lambda x: x[1], reverse=True)
         offspring = []
+        costs = []
 
         # Loop to make a new population of offspring
         while len(offspring) < populationSize:
@@ -69,6 +72,7 @@ def GeneticAlgorithm(generations = 500, populationSize = 50, crossoverProbabilit
         population = []
         for i in range(populationSize):
             fitness = -TotalCostOfSolution(offspring[i])
+            costs.append(fitness)
 
             # Check if current solution is better than the best found solution
             if fitness > bestSolution[1]:
@@ -80,16 +84,20 @@ def GeneticAlgorithm(generations = 500, populationSize = 50, crossoverProbabilit
 
             population.append([offspring[i], fitness])
 
-        print("-------------NEW GENERATION-----------------")
-        for solution in population:
-            print(solution[0], solution[1])
+        # print("-------------NEW GENERATION-----------------")
+        # for solution in population:
+        #     print(solution[0], solution[1])
+
+        generationData.append(GenerationData(min(costs), sum(costs) / len(costs), max(costs), bestSolution[1]))
 
         if solutionFound:
             break
 
-    print("------------------FINISHED-----------------")
-    for solution in population:
-        print(solution[0], solution[1])
+    return generationData
+
+    # print("------------------FINISHED-----------------")
+    # for solution in population:
+    #     print(solution[0], solution[1])
 
     print('---------------BEST SOLUTION--------------')
     print(bestSolution[0], bestSolution[1], bestSolution[2])

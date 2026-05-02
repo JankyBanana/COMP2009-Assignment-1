@@ -15,6 +15,13 @@ class Task:
         self.deadline = deadline
         self.requiredSkill = requiredSkill
 
+class GenerationData:
+    def __init__(self, minFitness, averageFitness, maxFitness, bestFitness):
+        self.minFitness = minFitness
+        self.averageFitness = averageFitness
+        self.maxFitness = maxFitness
+        self.bestFitness = bestFitness
+
 employees = [Employee('E1', 10, 4, ['A','C']),
              Employee('E2', 12, 6, ['A','B','C']),
              Employee('E3', 8, 3, ['A']),

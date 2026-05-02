@@ -47,11 +47,13 @@ def AntColonyAlgorithm(generations = 500, numberOfAnts = 30, evaporationRate = 0
     bestSolution = (None, -math.inf)
     # SolutionFound = True if the best possible solution has been found (fitness / cost = 0)
     solutionFound = False
+    generationData = []
 
     # Main loop, iterates through each generation
     for generation in range(generations):
         solutions = []
         fitnesses = []
+        costs = []
 
         # Ants choose solution
         for ant in range(numberOfAnts):
@@ -61,15 +63,16 @@ def AntColonyAlgorithm(generations = 500, numberOfAnts = 30, evaporationRate = 0
             fitness = -TotalCostOfSolution(solution)
             fitnesses.append(fitness)
             solutions.append(solution)
+            costs.append(fitness)
 
             # Check if this solution is the best so far
             if fitness > bestSolution[1]:
                 bestSolution = (solution, fitness)
-                print(bestSolution, generation)
+                # print(bestSolution, generation)
 
                 # Check if this solution is the best possible solution of fitness / cost = 0
                 if fitness >= 0:
-                    print(bestSolution, generation)
+                    # print(bestSolution, generation)
                     solutionFound = True
 
         # Evaporate pheromone to prevent stagnation and encourage exploration
@@ -95,12 +98,14 @@ def AntColonyAlgorithm(generations = 500, numberOfAnts = 30, evaporationRate = 0
                 ii += 1
             i += 1
 
+        generationData.append(GenerationData(min(costs), sum(costs) / len(costs), max(costs), bestSolution[1]))
+
         # If best solution possible is found, terminate algorithm
         if solutionFound:
             break
 
-    print("Best solution is:", bestSolution[0], bestSolution[1])
-    return bestSolution
+    # print("Best solution is:", bestSolution[0], bestSolution[1])
+    return generationData
 
 
 #GeneticAlgorithm()
