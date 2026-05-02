@@ -4,6 +4,7 @@ import numpy as np
 
 from genetic_algorithm import GeneticAlgorithm
 from ant_colony_algorithm import AntColonyAlgorithm
+from particle_swarm_algorithm import pso
 
 import time
 
@@ -61,5 +62,6 @@ def Plot_Algorithm_Generation_Data(generationData):
 
 Algorithm_Evaluation(GeneticAlgorithm)
 Algorithm_Evaluation(AntColonyAlgorithm)
+Algorithm_Evaluation(pso)
 
 # plt.plot(timeX, geneticTimes)

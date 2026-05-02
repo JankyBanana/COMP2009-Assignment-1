@@ -145,11 +145,11 @@ def pso(cfg=None):
 
         average_cost = sum(cost_list) / len(cost_list)
         gen_data = cf.GenerationData(min(cost_list), average_cost, max(cost_list),
-                                     cf.TotalCostOfSolution(g_best_pos))
+                                     -cf.TotalCostOfSolution(g_best_pos))
         gen_data_list.append(gen_data)
 
     print(
-        f"Found solution: {solution} cost = {cost}, after {iterations} iterations ({regenerations} regenerations)")
+        f"Found solution: {g_best_pos} cost = {cf.TotalCostOfSolution(g_best_pos)}, after {iteration} iterations ({regens} regenerations)")
 
     return gen_data_list
 
@@ -225,5 +225,5 @@ def print_swarm(swarm_list: list):
 
 if __name__ == "__main__":
     DEBUG = 0
-    pso_cfg = PSOConfig(size=20, pw=0.5, gw=0.5, w=0.5, max_iter=100000)
-    solution, cost, iterations, regenerations = pso(pso_cfg)
+    pso_cfg = PSOConfig(size=20, pw=0.5, gw=0.5, w=0.5, max_iter=500)
+    # solution, cost, iterations, regenerations = pso(pso_cfg)
