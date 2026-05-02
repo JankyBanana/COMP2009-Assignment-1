@@ -144,7 +144,8 @@ def pso(cfg=None):
             input("")
 
         average_cost = sum(cost_list) / len(cost_list)
-        gen_data = cf.GenerationData(min(cost_list), average_cost, max(cost_list), cf.TotalCostOfSolution(g_best_pos))
+        gen_data = cf.GenerationData(min(cost_list), average_cost, max(cost_list),
+                                     cf.TotalCostOfSolution(g_best_pos))
         gen_data_list.append(gen_data)
 
     print(
