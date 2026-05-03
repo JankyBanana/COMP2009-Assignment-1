@@ -45,8 +45,16 @@ def Algorithm_Evaluation(algorithm_function):
         print(end - start)
 
     fig, ax = plt.subplots(2, 1)
+    fig.suptitle('Overall Algorithm Runtimes and Memory Usage')
     ax[0].plot(timeX, algorithmTimes)
+    ax[0].set_xlabel('Iteration')
+    ax[0].set_ylabel('Runtime (seconds)')
+    ax[0].set_title('Algorithm Runtimes')
+
     ax[1].plot(timeX, memoryData)
+    ax[1].set_xlabel('Iteration')
+    ax[1].set_ylabel('Memory Usage (bytes)')
+    ax[1].set_title('Algorithm Memory Usage')
 
     averageBestFitness = Plot_Algorithm_Generation_Data(generationData)
     averageAlgorithmTimes = sum(algorithmTimes) / len(algorithmTimes)
@@ -57,6 +65,15 @@ def Plot_Algorithm_Generation_Data(generationData):
     averageBestFitness = 0
     fig1, ax1 = plt.subplots(4, 5)
     fig2, ax2 = plt.subplots(4, 5)
+
+    fig1.suptitle('Generation Fitness Data')
+    fig1.supxlabel('Generation')
+    fig1.supylabel('Fitness')
+
+    fig2.suptitle('Generation Constraint Violation Data')
+    fig2.supxlabel('Generation')
+    fig2.supylabel('Constraint Violations')
+
     for x in range(4):
         for y in range(5):
             index = x * 5 + y
@@ -66,31 +83,30 @@ def Plot_Algorithm_Generation_Data(generationData):
             fitness = [gen.bestFitness for gen in run]
             averageBestFitness += max(fitness)
             xTime = np.arange(0, len(fitness), 1)
-            ax1[x][y].plot(xTime, fitness, color='blue')
+            ax1[x][y].plot(xTime, fitness, color='blue', label='Best Fitness so far')
 
             fitness = [gen.minFitness for gen in run]
-            ax1[x][y].plot(xTime, fitness, color='red')
+            ax1[x][y].plot(xTime, fitness, color='red', label='Min Fitness')
 
             fitness = [gen.maxFitness for gen in run]
-            ax1[x][y].plot(xTime, fitness, color='green')
+            ax1[x][y].plot(xTime, fitness, color='green', label='Max Fitness this gen')
 
             fitness = [gen.averageFitness for gen in run]
-            ax1[x][y].plot(xTime, fitness, color='yellow')
+            ax1[x][y].plot(xTime, fitness, color='orange', label='Average Fitness')
 
             plt.figure(fig2)
             fitness = [FitnessToViolationNumber(gen.bestFitness) for gen in run]
-            ax2[x][y].plot(xTime, fitness, color='blue')
+            ax2[x][y].plot(xTime, fitness, color='blue', label='Lowest Violations overall')
 
             fitness = [FitnessToViolationNumber(gen.minFitness) for gen in run]
-            ax2[x][y].plot(xTime, fitness, color='red')
+            ax2[x][y].plot(xTime, fitness, color='red', label='Highest Violations')
 
             fitness = [FitnessToViolationNumber(gen.maxFitness) for gen in run]
-            ax2[x][y].plot(xTime, fitness, color='green')
+            ax2[x][y].plot(xTime, fitness, color='green', label='Lowest Violation this gen')
 
             fitness = [FitnessToViolationNumber(gen.averageFitness) for gen in run]
-            ax2[x][y].plot(xTime, fitness, color='yellow')
+            ax2[x][y].plot(xTime, fitness, color='orange', label='Average Violations')
 
-    averageBestFitness /= len(generationData)
 
     plt.show()
 
@@ -106,18 +122,24 @@ psoAverages = Algorithm_Evaluation(pso)
 # Average Algorithm Times
 plt.figure(1)
 plt.title("Average Algorithm Times")
+plt.xlabel('Algorithm')
+plt.ylabel('Time (seconds)')
 plt.bar(["Genetic Algorithm", "Ant Colony Algorithm", "Particle Swarm Optimisation"],
         [geneticAverages[0], antColonyAverages[0], psoAverages[0]])
 
 # Average Memory Usage
 plt.figure(2)
 plt.title("Average Memory Usage")
+plt.xlabel('Algorithm')
+plt.ylabel('Memory Usage (bytes)')
 plt.bar(["Genetic Algorithm", "Ant Colony Algorithm", "Particle Swarm Optimisation"],
         [geneticAverages[1], antColonyAverages[1], psoAverages[1]])
 
 # Average Best Fitness
 plt.figure(3)
 plt.title("Average Best Fitness")
+plt.xlabel('Algorithm')
+plt.ylabel('Fitness')
 plt.bar(["Genetic Algorithm", "Ant Colony Algorithm", "Particle Swarm Optimisation"],
         [geneticAverages[2], antColonyAverages[2], psoAverages[2]])
 

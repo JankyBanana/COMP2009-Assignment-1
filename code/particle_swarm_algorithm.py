@@ -234,4 +234,4 @@ def print_swarm(swarm_list: list):
 #     # solution, cost, iterations, regenerations = pso(pso_cfg)
 #
 
-cf.QuickAlgorithmBenchmark(pso)
+# cf.QuickAlgorithmBenchmark(pso)

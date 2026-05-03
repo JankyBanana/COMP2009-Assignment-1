@@ -111,4 +111,4 @@ def AntColonyAlgorithm(generations = 500, numberOfAnts = 30, evaporationRate = 0
 
 #GeneticAlgorithm()
 
-QuickAlgorithmBenchmark(AntColonyAlgorithm)
+# QuickAlgorithmBenchmark(AntColonyAlgorithm)

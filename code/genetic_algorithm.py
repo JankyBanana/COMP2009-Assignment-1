@@ -103,4 +103,4 @@ def GeneticAlgorithm(generations = 500, populationSize = 50, crossoverProbabilit
     print('---------------BEST SOLUTION--------------')
     print(bestSolution[0], bestSolution[1], bestSolution[2])
 
-QuickAlgorithmBenchmark(GeneticAlgorithm)
+# QuickAlgorithmBenchmark(GeneticAlgorithm)
