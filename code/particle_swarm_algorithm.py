@@ -22,7 +22,7 @@ DEBUG = 0
 
 
 class PSOConfig:
-    def __init__(self, size=20, pw=0.5, gw=0.5, w=0.5, v_max=4.0, stag_lim=10, max_iter=500):
+    def __init__(self, size=40, pw=1.5, gw=1.5, w=0.9, v_max=2.0, stag_lim=20, max_iter=500):
         self.size = size
         self.pw = pw  # Personal best weight
         self.gw = gw  # Group best weight
@@ -67,7 +67,8 @@ def pso(cfg=None):
 
     cost_list = swarm_cost(swarm_list)
     g_best_idx = cost_list.index(max(cost_list))
-    g_best_pos = swarm_list[g_best_idx].solution
+    g_best_pos = swarm_list[g_best_idx].solution.copy()
+    g_best_fitness = max(cost_list)
 
     if DEBUG:
         print(f"|DEBUG| g_best_pos: {g_best_pos}")
@@ -106,7 +107,7 @@ def pso(cfg=None):
                 if DEBUG:
                     print(
                         f"|DEBUG| new_pos[{vect_idx}] = {p.solution[vect_idx]} + {p.vel[vect_idx]} = {p.solution[vect_idx] + p.vel[vect_idx]}")
-                new_pos = int((p.solution[vect_idx] + p.vel[vect_idx])) % len(cf.employees)
+                new_pos = round((p.solution[vect_idx] + p.vel[vect_idx])) % len(cf.employees)
                 swarm_list[p_idx].solution[vect_idx] = new_pos
 
             if DEBUG:
@@ -134,8 +135,10 @@ def pso(cfg=None):
 
         # Update fitness list and g_best_idx/pos
         cost_list = new_cost_list
-        g_best_idx = cost_list.index(max(cost_list))
-        g_best_pos = swarm_list[g_best_idx].solution.copy()
+        if max(cost_list) > g_best_fitness:
+            g_best_idx = cost_list.index(max(cost_list))
+            g_best_pos = swarm_list[g_best_idx].solution.copy()
+            g_best_fitness = max(cost_list)
 
         if DEBUG:
             print(f"|DEBUG| Iteration {iteration}:")
@@ -166,7 +169,7 @@ def create_swarm(swarm_size: int) -> list[Particle]:
 def create_particle() -> Particle:
     particle = Particle()
     particle.solution = cf.GenerateRandomSolution()
-    particle.vel = cf.GenerateRandomSolution()
+    particle.vel = [r.uniform(-1.0, 1.0) for num in range(len(cf.tasks))]
     particle.p_best = particle.solution[:]
 
     return particle
@@ -230,10 +233,10 @@ def print_swarm(swarm_list: list):
 #     pso_cfg = PSOConfig(size=20, pw=0.5, gw=0.5, w=0.5, max_iter=500)
 #     # solution, cost, iterations, regenerations = pso(pso_cfg)
 #
-# start = time.perf_counter()
-#
-# pso()
-#
-# end = time.perf_counter()
-#
-# print(end - start)
+start = time.perf_counter()
+
+pso()
+
+end = time.perf_counter()
+
+print(end - start)
