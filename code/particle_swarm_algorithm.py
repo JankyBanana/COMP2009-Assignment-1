@@ -13,6 +13,7 @@
 
 import random as r
 import common_functions as cf
+import time
 
 GREEN = "\033[32m"
 RESET = "\033[0m"
@@ -75,12 +76,12 @@ def pso(cfg=None):
     # Start of main PSO loop
     while max(cost_list) < 0 and iteration < max_iteration:
         # Regenerate part of swarm if stagnation detected
-        # if stagnation >= stag_lim:
-        #     if DEBUG:
-        #         print(f"|DEBUG| stagnation = {stagnation}. Regenerating swarm.\n")
-        #     regen_swarm(swarm_list, cost_list, cfg)
-        #     regens += 1
-        #     stagnation = 0
+        if stagnation >= stag_lim:
+            if DEBUG:
+                print(f"|DEBUG| stagnation = {stagnation}. Regenerating swarm.\n")
+            regen_swarm(swarm_list, cost_list, cfg)
+            regens += 1
+            stagnation = 0
 
         iteration += 1
 
@@ -229,4 +230,10 @@ if __name__ == "__main__":
     pso_cfg = PSOConfig(size=20, pw=0.5, gw=0.5, w=0.5, max_iter=500)
     # solution, cost, iterations, regenerations = pso(pso_cfg)
 
+start = time.perf_counter()
+
 pso()
+
+end = time.perf_counter()
+
+print(end - start)
