@@ -39,7 +39,7 @@ def solutionConstruction(pheromone):
     return solution
 
 # Ant Colony Algorithm with optional arguments for iterations (generations), number of ants per iteration, evaporation rate, and depositConstant
-def AntColonyAlgorithm(generations = 500, numberOfAnts = 30, evaporationRate = 0.2, depositConstant = 0.4):
+def AntColonyAlgorithm(generations = 500, numberOfAnts = 30, evaporationRate = 0.1, depositConstant = 0.5):
     pheromone = np.ones((len(tasks), len(employees)))
     # Max possible pheromone level to prevent severe stagnation from a single solution
     maxPheromone = 10
@@ -111,7 +111,16 @@ def AntColonyAlgorithm(generations = 500, numberOfAnts = 30, evaporationRate = 0
 
 #GeneticAlgorithm()
 
-# start = time.perf_counter()
-# AntColonyAlgorithm()
-# end = time.perf_counter()
-# print(end - start)
+times = []
+bestFitness = []
+for i in range(100):
+
+    start = time.perf_counter()
+    bestF = max([gen.bestFitness for gen in AntColonyAlgorithm()])
+    end = time.perf_counter()
+
+    times.append(end - start)
+    bestFitness.append(bestF)
+
+print(sum(times) / len(times))
+print(sum(bestFitness) / len(bestFitness))
