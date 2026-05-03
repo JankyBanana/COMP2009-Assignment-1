@@ -96,8 +96,8 @@ def Plot_Algorithm_Generation_Data(generationData):
 
     return averageBestFitness
 
-dat = Algorithm_Evaluation(pso)
-print(dat)
+# dat = Algorithm_Evaluation(pso)
+# print(dat)
 
 geneticAverages = Algorithm_Evaluation(GeneticAlgorithm)
 antColonyAverages = Algorithm_Evaluation(AntColonyAlgorithm)
