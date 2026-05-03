@@ -75,12 +75,12 @@ def pso(cfg=None):
     # Start of main PSO loop
     while max(cost_list) < 0 and iteration < max_iteration:
         # Regenerate part of swarm if stagnation detected
-        if stagnation >= stag_lim:
-            if DEBUG:
-                print(f"|DEBUG| stagnation = {stagnation}. Regenerating swarm.\n")
-            regen_swarm(swarm_list, cost_list, cfg)
-            regens += 1
-            stagnation = 0
+        # if stagnation >= stag_lim:
+        #     if DEBUG:
+        #         print(f"|DEBUG| stagnation = {stagnation}. Regenerating swarm.\n")
+        #     regen_swarm(swarm_list, cost_list, cfg)
+        #     regens += 1
+        #     stagnation = 0
 
         iteration += 1
 
@@ -95,9 +95,9 @@ def pso(cfg=None):
                 # Updating velocity vector components
                 r1 = r.random()
                 r2 = r.random()
-                new_vel = round(w * p.vel[vect_idx] +
+                new_vel = (w * p.vel[vect_idx] +
                                 pw * r1 * (p.p_best[vect_idx] - p.solution[vect_idx]) +
-                                gw * r2 * (g_best_pos[vect_idx] - p.solution[vect_idx]), 3)
+                                gw * r2 * (g_best_pos[vect_idx] - p.solution[vect_idx]))
                 # Check effect, required or not?
                 p.vel[vect_idx] = max(-v_max, min(v_max, new_vel))  # Clamping velocity components
 
@@ -105,8 +105,8 @@ def pso(cfg=None):
                 if DEBUG:
                     print(
                         f"|DEBUG| new_pos[{vect_idx}] = {p.solution[vect_idx]} + {p.vel[vect_idx]} = {p.solution[vect_idx] + p.vel[vect_idx]}")
-                new_pos = round((p.solution[vect_idx] + p.vel[vect_idx])) % len(cf.employees)
-                p.solution[vect_idx] = new_pos
+                new_pos = int((p.solution[vect_idx] + p.vel[vect_idx])) % len(cf.employees)
+                swarm_list[p_idx].solution[vect_idx] = new_pos
 
             if DEBUG:
                 print(f"|DEBUG| |After| p.solution: {p.solution}")
@@ -178,7 +178,8 @@ def swarm_cost(swarm_list: list[Particle]):
         if DEBUG:
             print(f"|DEBUG| ----- Particle {idx} -----")
 
-        p_cost = round(-cf.TotalCostOfSolution(particle.solution), 3)
+        # p_cost = round(-cf.TotalCostOfSolution(particle.solution), 3)
+        p_cost = -cf.TotalCostOfSolution(particle.solution)
         cost_list.append(p_cost)
 
         if DEBUG:
@@ -227,3 +228,5 @@ if __name__ == "__main__":
     DEBUG = 0
     pso_cfg = PSOConfig(size=20, pw=0.5, gw=0.5, w=0.5, max_iter=500)
     # solution, cost, iterations, regenerations = pso(pso_cfg)
+
+pso()
