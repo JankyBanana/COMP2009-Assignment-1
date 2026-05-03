@@ -41,9 +41,11 @@ tasks = [Task('T1', 4, 3, 8, 'A'),
          Task('T9', 2, 2, 5, 'A'),
          Task('T10', 6, 4, 11, 'C')]
 
+# Generates a random solution based on employees and tasks
 def GenerateRandomSolution():
     return np.random.randint(0, len(employees), len(tasks))
 
+# Returns a list of all the tasks a single employee has been assigned from a solution
 def GetEmployeeTasks(employeeIndex, solution):
     employeeTasks = []
     index = 0
@@ -53,7 +55,7 @@ def GetEmployeeTasks(employeeIndex, solution):
         index += 1
     return employeeTasks
 
-
+# Calculate deadline violation penalty
 def CalculateDeadlineViolationPenalty(solution):
     deadlineViolationPenalty = 0
 
@@ -74,6 +76,7 @@ def CalculateDeadlineViolationPenalty(solution):
                 deadlineViolationPenalty += max(FinishTime - task.deadline, 0)
     return deadlineViolationPenalty
 
+# Calculate overload penalty
 def CalculateOverloadPenalty(solution):
     overloadPenalty = 0
     for employeeIndex in range(0, len(employees)):
@@ -87,6 +90,7 @@ def CalculateOverloadPenalty(solution):
 
     return overloadPenalty
 
+# Calculate mismatch penalty
 def CalculateSkillMismatchPenalty(solution):
     skillMismatchPenalty = 0
 
@@ -100,6 +104,7 @@ def CalculateSkillMismatchPenalty(solution):
 
     return skillMismatchPenalty
 
+# Calculate difficulty violation penalty
 def CalculateDifficultyViolationPenalty(solution):
     difficultyViolationPenalty = 0
 
@@ -111,6 +116,7 @@ def CalculateDifficultyViolationPenalty(solution):
 
     return difficultyViolationPenalty
 
+# Calculate the total cost of a given solution with weighted penalties
 def TotalCostOfSolution(solution):
     # uniqueAssignmentPenalty = CalculateUniqueAssignmentPenalty(solution)
     uniqueAssignmentPenalty = 0
@@ -122,11 +128,13 @@ def TotalCostOfSolution(solution):
     totalCost = 0.2 * (uniqueAssignmentPenalty + deadlineViolationPenalty + overloadPenalty + skillMismatchPenalty + difficultyViolationPenalty)
     return totalCost
 
+# Returns the number of violations given a fitness score (or -cost)
 def FitnessToViolationNumber(fitness):
     numberOfViolations = 0
     numberOfViolations = int(-fitness / 0.2)
     return numberOfViolations
 
+# Used for debugging algorithms for parameters
 def QuickAlgorithmBenchmark(algorithm_function):
     times = []
     bestFitness = []

@@ -9,6 +9,7 @@ from common_functions import FitnessToViolationNumber
 
 import time
 
+# Performance evaluation of an algorithm
 def Algorithm_Evaluation(algorithm_function):
     iterations = 20
 
@@ -22,13 +23,15 @@ def Algorithm_Evaluation(algorithm_function):
 
     # Run Algorithm multiple times and record runtime + memory usage
     for i in range(iterations):
+
+        # Timed algorithm
         start = time.perf_counter()
 
         algData = algorithm_function()
 
         end = time.perf_counter()
 
-
+        # Traced memory algorithm
         tracemalloc.start()
 
         algorithm_function()
@@ -61,6 +64,7 @@ def Algorithm_Evaluation(algorithm_function):
     averageMemoryUsage = sum(memoryData) / len(memoryData)
     return (averageAlgorithmTimes, averageMemoryUsage, averageBestFitness)
 
+# Plot an algorithm's generation data for every generation
 def Plot_Algorithm_Generation_Data(generationData):
     averageBestFitness = 0
     fig1, ax1 = plt.subplots(4, 5)

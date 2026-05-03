@@ -99,6 +99,7 @@ def AntColonyAlgorithm(generations = 500, numberOfAnts = 30, evaporationRate = 0
                 ii += 1
             i += 1
 
+        # Save data for this generation to for its performance to be evaluated
         generationData.append(GenerationData(min(costs), sum(costs) / len(costs), max(costs), bestSolution[1]))
 
         # If best solution possible is found, terminate algorithm

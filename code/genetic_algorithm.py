@@ -89,6 +89,7 @@ def GeneticAlgorithm(generations = 500, populationSize = 50, crossoverProbabilit
         # for solution in population:
         #     print(solution[0], solution[1])
 
+        # Save data for this generation to for its performance to be evaluated
         generationData.append(GenerationData(min(costs), sum(costs) / len(costs), max(costs), bestSolution[1]))
 
         if solutionFound:
