@@ -225,15 +225,15 @@ def print_swarm(swarm_list: list):
     print("")
 
 
-if __name__ == "__main__":
-    DEBUG = 0
-    pso_cfg = PSOConfig(size=20, pw=0.5, gw=0.5, w=0.5, max_iter=500)
-    # solution, cost, iterations, regenerations = pso(pso_cfg)
-
-start = time.perf_counter()
-
-pso()
-
-end = time.perf_counter()
-
-print(end - start)
+# if __name__ == "__main__":
+#     DEBUG = 0
+#     pso_cfg = PSOConfig(size=20, pw=0.5, gw=0.5, w=0.5, max_iter=500)
+#     # solution, cost, iterations, regenerations = pso(pso_cfg)
+#
+# start = time.perf_counter()
+#
+# pso()
+#
+# end = time.perf_counter()
+#
+# print(end - start)

@@ -5,9 +5,9 @@ import numpy as np
 from genetic_algorithm import GeneticAlgorithm
 from ant_colony_algorithm import AntColonyAlgorithm
 from particle_swarm_algorithm import pso
+from common_functions import FitnessToViolationNumber
 
 import time
-
 
 def Algorithm_Evaluation(algorithm_function):
     iterations = 20
@@ -17,16 +17,26 @@ def Algorithm_Evaluation(algorithm_function):
     timeX = np.arange(0, 20, 1)
     generationData = []
 
+    # Warmup Algorithm Run
+    algorithm_function()
 
+    # Run Algorithm multiple times and record runtime + memory usage
     for i in range(iterations):
         start = time.perf_counter()
-        tracemalloc.start()
 
-        generationData.append(algorithm_function())
+        algData = algorithm_function()
 
         end = time.perf_counter()
+
+
+        tracemalloc.start()
+
+        algorithm_function()
         current, peak = tracemalloc.get_traced_memory()
+
         tracemalloc.stop()
+
+        generationData.append(algData)
 
         algorithmTimes.append(end - start)
         memoryData.append(peak)
@@ -45,31 +55,48 @@ def Algorithm_Evaluation(algorithm_function):
 
 def Plot_Algorithm_Generation_Data(generationData):
     averageBestFitness = 0
-    fig, ax = plt.subplots(4, 5)
+    fig1, ax1 = plt.subplots(4, 5)
+    fig2, ax2 = plt.subplots(4, 5)
     for x in range(4):
         for y in range(5):
             index = x * 5 + y
             run = generationData[index]
 
+            plt.figure(fig1)
             fitness = [gen.bestFitness for gen in run]
             averageBestFitness += max(fitness)
             xTime = np.arange(0, len(fitness), 1)
-            ax[x][y].plot(xTime, fitness, color='blue')
+            ax1[x][y].plot(xTime, fitness, color='blue')
 
             fitness = [gen.minFitness for gen in run]
-            ax[x][y].plot(xTime, fitness, color='red')
+            ax1[x][y].plot(xTime, fitness, color='red')
 
             fitness = [gen.maxFitness for gen in run]
-            ax[x][y].plot(xTime, fitness, color='green')
+            ax1[x][y].plot(xTime, fitness, color='green')
 
             fitness = [gen.averageFitness for gen in run]
-            ax[x][y].plot(xTime, fitness, color='yellow')
+            ax1[x][y].plot(xTime, fitness, color='yellow')
+
+            plt.figure(fig2)
+            fitness = [FitnessToViolationNumber(gen.bestFitness) for gen in run]
+            ax2[x][y].plot(xTime, fitness, color='blue')
+
+            fitness = [FitnessToViolationNumber(gen.minFitness) for gen in run]
+            ax2[x][y].plot(xTime, fitness, color='red')
+
+            fitness = [FitnessToViolationNumber(gen.maxFitness) for gen in run]
+            ax2[x][y].plot(xTime, fitness, color='green')
+
+            fitness = [FitnessToViolationNumber(gen.averageFitness) for gen in run]
+            ax2[x][y].plot(xTime, fitness, color='yellow')
 
     averageBestFitness /= len(generationData)
 
     plt.show()
 
     return averageBestFitness
+
+# Algorithm_Evaluation(pso)
 
 geneticAverages = Algorithm_Evaluation(GeneticAlgorithm)
 antColonyAverages = Algorithm_Evaluation(AntColonyAlgorithm)

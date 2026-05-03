@@ -2,6 +2,7 @@ import math
 
 import numpy as np
 import random
+import time
 
 from common_functions import *
 
@@ -109,4 +110,8 @@ def AntColonyAlgorithm(generations = 500, numberOfAnts = 30, evaporationRate = 0
 
 
 #GeneticAlgorithm()
-AntColonyAlgorithm()
+
+# start = time.perf_counter()
+# AntColonyAlgorithm()
+# end = time.perf_counter()
+# print(end - start)

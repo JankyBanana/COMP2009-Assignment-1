@@ -1,5 +1,6 @@
 import numpy as np
 import random
+import time
 from common_functions import GenerationData
 
 from common_functions import *
@@ -102,5 +103,7 @@ def GeneticAlgorithm(generations = 500, populationSize = 50, crossoverProbabilit
     print('---------------BEST SOLUTION--------------')
     print(bestSolution[0], bestSolution[1], bestSolution[2])
 
-
-GeneticAlgorithm()
+# start = time.perf_counter()
+# GeneticAlgorithm()
+# end = time.perf_counter()
+# print(end - start)

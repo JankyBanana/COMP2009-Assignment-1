@@ -22,6 +22,7 @@ class GenerationData:
         self.maxFitness = maxFitness
         self.bestFitness = bestFitness
 
+
 employees = [Employee('E1', 10, 4, ['A','C']),
              Employee('E2', 12, 6, ['A','B','C']),
              Employee('E3', 8, 3, ['A']),
@@ -119,3 +120,8 @@ def TotalCostOfSolution(solution):
 
     totalCost = 0.2 * (uniqueAssignmentPenalty + deadlineViolationPenalty + overloadPenalty + skillMismatchPenalty + difficultyViolationPenalty)
     return totalCost
+
+def FitnessToViolationNumber(fitness):
+    numberOfViolations = 0
+    numberOfViolations = int(-fitness / 0.2)
+    return numberOfViolations
