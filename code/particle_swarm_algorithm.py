@@ -22,7 +22,7 @@ DEBUG = 0
 
 
 class PSOConfig:
-    def __init__(self, size=40, pw=1.5, gw=1.5, w=0.9, v_max=2.0, stag_lim=20, max_iter=500):
+    def __init__(self, size=30, pw=1.5, gw=1.5, w=0.9, v_max=2.0, stag_lim=20, max_iter=500):
         self.size = size
         self.pw = pw  # Personal best weight
         self.gw = gw  # Group best weight
