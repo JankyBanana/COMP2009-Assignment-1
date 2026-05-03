@@ -22,7 +22,7 @@ DEBUG = 0
 
 
 class PSOConfig:
-    def __init__(self, size=30, pw=1.5, gw=1.5, w=0.9, v_max=2.0, stag_lim=20, max_iter=500):
+    def __init__(self, size=30, pw=1, gw=1, w=0.9, v_max=2.0, stag_lim=20, max_iter=500):
         self.size = size
         self.pw = pw  # Personal best weight
         self.gw = gw  # Group best weight
@@ -233,10 +233,5 @@ def print_swarm(swarm_list: list):
 #     pso_cfg = PSOConfig(size=20, pw=0.5, gw=0.5, w=0.5, max_iter=500)
 #     # solution, cost, iterations, regenerations = pso(pso_cfg)
 #
-start = time.perf_counter()
 
-pso()
-
-end = time.perf_counter()
-
-print(end - start)
+cf.QuickAlgorithmBenchmark(pso)

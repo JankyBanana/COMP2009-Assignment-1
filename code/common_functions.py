@@ -1,4 +1,5 @@
 import numpy as np
+import time
 
 class Employee:
     def __init__(self, employeeID, availableHours, skillLevel, skills):
@@ -125,3 +126,17 @@ def FitnessToViolationNumber(fitness):
     numberOfViolations = 0
     numberOfViolations = int(-fitness / 0.2)
     return numberOfViolations
+
+def QuickAlgorithmBenchmark(algorithm_function):
+    times = []
+    bestFitness = []
+    for i in range(100):
+        start = time.perf_counter()
+        bestF = max([gen.bestFitness for gen in algorithm_function()])
+        end = time.perf_counter()
+
+        times.append(end - start)
+        bestFitness.append(bestF)
+
+    print(sum(times) / len(times))
+    print(sum(bestFitness) / len(bestFitness))

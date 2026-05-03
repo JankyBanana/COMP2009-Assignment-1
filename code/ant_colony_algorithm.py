@@ -111,16 +111,4 @@ def AntColonyAlgorithm(generations = 500, numberOfAnts = 30, evaporationRate = 0
 
 #GeneticAlgorithm()
 
-times = []
-bestFitness = []
-for i in range(100):
-
-    start = time.perf_counter()
-    bestF = max([gen.bestFitness for gen in AntColonyAlgorithm()])
-    end = time.perf_counter()
-
-    times.append(end - start)
-    bestFitness.append(bestF)
-
-print(sum(times) / len(times))
-print(sum(bestFitness) / len(bestFitness))
+QuickAlgorithmBenchmark(AntColonyAlgorithm)
